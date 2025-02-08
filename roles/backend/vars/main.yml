@@ -1,0 +1,3 @@
+login_user: root
+login_host: db.surya-devops.online
+mysql_root_password: ExpenseApp@1
