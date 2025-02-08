@@ -29,6 +29,10 @@
       dest: /etc/nginx/default.d/expense.conf
     notify: restart nginx
 
+  - name: Show loaded handlers
+    debug:
+      var: ansible_handlers
+
 
 #the below will restart the nginx irrespective of the change in nginx configuration file, so to avoid that we are using handlers above
   # - name: restart nginx
