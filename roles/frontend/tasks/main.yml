@@ -10,18 +10,20 @@
       enabled: true
   
   - name: remove default content on nginx webserver
-    ansible.builtin.command: rm -rf /usr/share/nginx/html/*
+    ansible.builtin.file:
+      path: /usr/share/nginx/html
+      state: absent
 
-  - name: download frontend content
-    ansible.builtin.get_url:
-      url: https://expense-builds.s3.us-east-1.amazonaws.com/expense-frontend-v2.zip
-      dest: /tmp/frontend.zip
+  - name: create html directory
+    ansible.builtin.file:
+      path: /usr/share/nginx/html
+      state: directory
 
-  - name: Extracting the frontend content
+  - name: download and extract frontend content
     ansible.builtin.unarchive:
-      src: /tmp/frontend.zip
+      url: https://expense-builds.s3.us-east-1.amazonaws.com/expense-frontend-v2.zip
       dest: /usr/share/nginx/html
-      remote_src: yes
+      remote_src: true
   
   - name: copy expense.conf
     ansible.builtin.template:
