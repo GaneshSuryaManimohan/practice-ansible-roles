@@ -9,10 +9,21 @@
     state: started
     enabled: true
   
-- name: import role
-  ansible.builtin.import_role:
-    name: common
-    tasks_from: app-pre-req
+- name: delete /usr/share/nginx/html directory
+  ansible.builtin.file:
+    path: /usr/share/nginx/html
+    state: absent
+  
+- name: create /usr/share/nginx/html directory
+  ansible.builtin.file:
+    path: /usr/share/nginx/html
+    state: directory
+
+- name: download & extract frontend code
+  ansible.builtin.unarchive:
+    src: https://expense-builds.s3.us-east-1.amazonaws.com/expense-frontend-v2.zip
+    dest: /usr/share/nginx/html
+    remote_src: true
 
   #if there is a config change, then the nginx will be restarted
 - name: copy expense.conf

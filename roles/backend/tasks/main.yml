@@ -16,15 +16,26 @@
   ansible.builtin.user:
     name: expense
 
-- name: import role
-  ansible.builtin.import_role:
-    name: common
-    tasks_from: app-pre-req
+- name: delete /app directory
+  ansible.builtin.file:
+    path: /app
+    state: absent
+  
+- name: create {{app_location}} directory
+  ansible.builtin.file:
+    path: /app
+    state: directory
+
+- name: download & extract {{component}} code
+  ansible.builtin.unarchive:
+    src: https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
+    dest: /app
+    remote_src: true
 
 - name: install npm dependencies
   ansible.builtin.command: npm install
   args:
-   chdir: "{{app_location}}"
+   chdir: /app
 
 - name: copy backend.service
   ansible.builtin.template:
