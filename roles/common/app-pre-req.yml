@@ -8,8 +8,13 @@
     path: "{{app_location}}"
     state: directory
 
-- name: download & extract {{component}} code
+- name: download {{component}} code
+  ansible.builtin.get_url:
+    url: https://expense-builds.s3.us-east-1.amazonaws.com/expense-{{component}}-v2.zip
+    dest: "{{dest}}"
+
+- name: unzip {{component}} code
   ansible.builtin.unarchive:
-    src: https://expense-builds.s3.us-east-1.amazonaws.com/expense-{{component}}-v2.zip
+    src: "{{dest}}"
     dest: "{{app_location}}"
     remote_src: true
