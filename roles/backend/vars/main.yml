@@ -1,6 +1,6 @@
 login_user: root
-login_host: db.surya-devops.online
+login_host: db.surya-devops.site
 mysql_root_password: ExpenseApp@1
-DB_HOST: db.surya-devops.online
+DB_HOST: db.surya-devops.site
 app_location: /app
 component: backend
